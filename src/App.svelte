@@ -1,5 +1,5 @@
 <script>
-  import { generatePattern, MARGIN_LEFT } from './lib/pattern.js'
+  import { generatePattern, computeMedianLuminance, MARGIN_LEFT } from './lib/pattern.js'
   import ImageUpload from './lib/components/ImageUpload.svelte'
   import PatternConfig from './lib/components/PatternConfig.svelte'
   import ChartPreview from './lib/components/ChartPreview.svelte'
@@ -46,6 +46,7 @@
     img = loadedImg
     if (loadedImg.naturalWidth && loadedImg.naturalHeight) {
       ridges = Math.max(1, Math.round(stitches / (loadedImg.naturalWidth / loadedImg.naturalHeight)))
+      threshold = computeMedianLuminance(loadedImg)
     }
   }
 
@@ -93,6 +94,7 @@
               <li><span class="swatch dark-knit" aria-hidden="true"></span> DK — dark ridge, knit (foreground)</li>
               <li><span class="swatch purl" aria-hidden="true"></span> LP / DP — purl (recedes)</li>
             </ul>
+            <p class="legend-note">Tip: adjacent purl stitches at color boundaries are normal in illusion knitting and won't affect the finished result.</p>
 
             <div class="zoom-controls">
               <label for="zoom-slider" class="zoom-label">Zoom</label>
@@ -348,6 +350,13 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
+  }
+
+  .legend-note {
+    margin: 0.5rem 0 0;
+    font-size: 0.75rem;
+    color: #6b7280;
+    font-style: italic;
   }
 
   .swatch {

@@ -7,6 +7,7 @@ This file tracks features and improvements being considered for future versions.
 - [ ] 2×2 pixel mapping — map each input pixel to a 2×2 block of stitches so purl bumps are wide enough to reliably occlude the row behind them, producing a sharper illusion effect. Described in Zhu et al. (2024) "Computational Illusion Knitting," ACM Transactions on Graphics. Particularly beneficial for images with thin foreground features.
 - [ ] Double-view illusions — embed two different images, each visible from opposite sides (left vs. right). Requires constraint relaxation; see Zhu et al. (2024) for the theoretical framework.
 - [ ] Dithering options (e.g. Floyd-Steinberg) for better grayscale-to-binary conversion, especially for photographic images
+- [ ] Dual-threshold sliders — separate thresholds for light rows and dark rows. Pixels with luminance between the two values would read as background on light rows and foreground on dark rows, creating the impression of an intermediate "gray" color (the 3-color technique described in Zhu et al. 2024). Requested by irishlacenet on Ravelry.
 - [ ] Multi-level threshold (3-color illusion knitting support: light, dark, and mixture areas)
 - [ ] Edge detection preprocessing to sharpen silhouettes before thresholding
 - [ ] Crop and rotate tools before generating the chart

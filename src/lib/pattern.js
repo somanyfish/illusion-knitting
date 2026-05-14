@@ -2,6 +2,29 @@
 export const MARGIN_LEFT = 36
 
 /**
+ * Computes the median luminance of an image's pixels.
+ * Used to set a sensible default threshold that adapts to each image's
+ * actual tonal range rather than assuming a fixed midpoint of 128.
+ * @param {HTMLImageElement} img
+ * @returns {number} median luminance 0–255, or 128 if the image is invalid
+ */
+export function computeMedianLuminance(img) {
+  if (!img || img.naturalWidth === 0 || img.naturalHeight === 0) return 128
+  const canvas = document.createElement('canvas')
+  canvas.width = img.naturalWidth
+  canvas.height = img.naturalHeight
+  const ctx = canvas.getContext('2d', { willReadFrequently: true })
+  ctx.drawImage(img, 0, 0)
+  const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height)
+  const luminances = []
+  for (let i = 0; i < data.length; i += 4) {
+    luminances.push(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2])
+  }
+  luminances.sort((a, b) => a - b)
+  return Math.round(luminances[Math.floor(luminances.length / 2)])
+}
+
+/**
  * Generates an illusion knitting chart from an image.
  *
  * Chart is stored bottom-up: chart[0] = first ridge worked (cast-on edge).
